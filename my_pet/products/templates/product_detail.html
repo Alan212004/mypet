@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+<img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+<p>{{ product.description }}</p>
+<p>Price: ₹{{ product.price }}</p>
+
+{% if user.is_authenticated %}
+    <!-- Show Add to Cart button if the user is logged in -->
+    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
+{% else %}
+    <!-- Show Login prompt for guests -->
+    <p><a href="{% url 'login' %}">Login</a> to add items to your cart.</p>
+{% endif %}
+{% endblock %}

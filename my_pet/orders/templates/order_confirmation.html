@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Order Confirmation</h2>
+
+    <div class="alert alert-success" role="alert">
+        Thank you for your order, {{ user.username }}! Your order has been successfully placed.
+    </div>
+
+    <h3>Order Details</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.product.price|floatformat:2 }}</td>
+                    <td>${{ item.quantity|multiply:item.product.price }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Order Total: ${{ order.total_price|floatformat:2 }}</h4>
+
+    <div class="mt-3">
+        <a href="{% url 'products' %}" class="btn btn-primary">Continue Shopping</a>
+        <a href="{% url 'user_orders' %}" class="btn btn-secondary">View Your Orders</a>
+    </div>
+</div>
+{% endblock %}
