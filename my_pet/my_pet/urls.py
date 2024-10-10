@@ -26,8 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),  # Include the accounts URLs
     path('cart/', include('cart.urls')),          # Include the cart URLs
-    path('orders/', include('orders.urls')),      # Include the orders URLs
-    path('products/', include('products.urls')),   # Include the products URLs
+    path('products/', include('products.urls')),  # Include the products app's URLs
+    path('orders/', include('orders.urls')),   # Include the products URLs
 ]
 
 if settings.DEBUG:

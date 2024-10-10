@@ -1,10 +1,10 @@
+#templatetags/cart_filters.py
 from django import template
 
 register = template.Library()
 
 @register.filter
 def total_price(cart_items):
-    total = 0
-    for item in cart_items:
-        total += item.product.price * item.quantity
+    """Calculates total price of all items in the cart."""
+    total = sum(item.product.price * item.quantity for item in cart_items)
     return total

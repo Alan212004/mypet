@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load cart_extras %}
+{% load cart_filters %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Checkout</h2>
+    {% if user.is_authenticated %}
+        <h3>Your Cart Items</h3>
+        {% if cart_items %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>₹{{ item.product.price|floatformat:2 }}</td>
+                            <td>₹{{ item.product.price|multiply:item.quantity|floatformat:2 }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between">
+                <h4>Total: ₹{{ cart_items|total_price|floatformat:2 }}</h4>
+            </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+
+        <h3>Shipping Information</h3>
+        <form method="POST" action="{% url 'create_order' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="address">Shipping Address</label>
+                <textarea class="form-control" id="address" name="address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="payment_method">Payment Method</label>
+                <select class="form-control" id="payment_method" name="payment_method" required>
+                    <option value="credit_card">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Place Order</button>
+        </form>
+    {% else %}
+        <p>Please log in to proceed with your checkout.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -2,16 +2,65 @@
 
 {% block content %}
     <h2>Profile</h2>
+    
+    <!-- Display messages if any -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
     <form method="post">
         {% csrf_token %}
-        <fieldset>
+        
+        <fieldset class="mb-4">
             <legend>Personal Information</legend>
-            {{ user_form.as_p }}
+            <div class="form-group">
+                <label for="id_first_name">First Name:</label>
+                <input type="text" class="form-control" id="id_first_name" name="first_name" value="{{ user_form.first_name.value|default_if_none:'' }}" required>
+                {% if user_form.first_name.errors %}
+                    <div class="alert alert-danger">{{ user_form.first_name.errors|first }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="id_last_name">Last Name:</label>
+                <input type="text" class="form-control" id="id_last_name" name="last_name" value="{{ user_form.last_name.value|default_if_none:'' }}" required>
+                {% if user_form.last_name.errors %}
+                    <div class="alert alert-danger">{{ user_form.last_name.errors|first }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="id_email">Email:</label>
+                <input type="email" class="form-control" id="id_email" name="email" value="{{ user_form.email.value|default_if_none:'' }}" required>
+                {% if user_form.email.errors %}
+                    <div class="alert alert-danger">{{ user_form.email.errors|first }}</div>
+                {% endif %}
+            </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="mb-4">
             <legend>Profile Details</legend>
-            {{ profile_form.as_p }}
+            <div class="form-group">
+                <label for="id_age">Age:</label>
+                <input type="number" class="form-control" id="id_age" name="age" value="{{ profile_form.age.value|default_if_none:'' }}" required>
+                {% if profile_form.age.errors %}
+                    <div class="alert alert-danger">{{ profile_form.age.errors|first }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="id_address">Address:</label>
+                <input type="text" class="form-control" id="id_address" name="address" value="{{ profile_form.address.value|default_if_none:'' }}" required>
+                {% if profile_form.address.errors %}
+                    <div class="alert alert-danger">{{ profile_form.address.errors|first }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="id_phone">Phone:</label>
+                <input type="text" class="form-control" id="id_phone" name="phone" value="{{ profile_form.phone.value|default_if_none:'' }}" required>
+                {% if profile_form.phone.errors %}
+                    <div class="alert alert-danger">{{ profile_form.phone.errors|first }}</div>
+                {% endif %}
+            </div>
         </fieldset>
 
         <button type="submit" class="btn btn-primary">Update Profile</button>
